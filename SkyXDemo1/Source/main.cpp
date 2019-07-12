@@ -12,6 +12,10 @@
 // ----------------------------------------------------------------------------
 #include <Ogre.h>
 #include <Overlay/OgreTextAreaOverlayElement.h>
+#include <OgreOverlay.h>
+#include <OgreOverlaySystem.h>
+#include <OgreOverlayManager.h>
+#include <OgreOverlayContainer.h>
 
 // ----------------------------------------------------------------------------
 // Include the OGRE example framework
@@ -20,6 +24,7 @@
 // just override the bits you want to instead of writing it all from scratch.
 // ----------------------------------------------------------------------------
 #include <ExampleApplication.h>
+#include <iostream>
 
 // ----------------------------------------------------------------------------
 // SkyX-related ptrs
@@ -69,6 +74,7 @@ Ogre::String getConfigStringFromSkyXAtmosphereOptions(const SkyX::AtmosphereMana
 // specialise the setup routine, otherwise the only mandatory override is the
 // 'createScene' method which is where you set up your own personal scene.
 // ----------------------------------------------------------------------------
+#if 0
 class SkyXDemoFrameListener : public ExampleFrameListener
 {
 public:
@@ -210,6 +216,7 @@ public:
         return true;
     }
 };
+#endif
 
 class SampleApp : public ExampleApplication
 {
@@ -226,8 +233,6 @@ protected:
 		// Set some camera params
         mCamera->setFarClipDistance(30000);
 		mCamera->setNearClipDistance(20);
-		mCamera->setPosition(20000, 1800, 20000);
-		mCamera->setDirection(1, 0, 1);
 
 		// Create our text area for display SkyX parameters
 		createTextArea();
@@ -251,22 +256,17 @@ protected:
 			getByName("Terrain"))->getTechnique(0)->createPass(), 5000, Ogre::SBT_TRANSPARENT_COLOUR);
 
 		// Create the terrain
-	    mSceneMgr->setWorldGeometry("Terrain.cfg");
+	    //mSceneMgr->setWorldGeometry("Terrain.cfg");
 
 		// Add a basic cloud layer
 		mSkyX->getCloudsManager()->add(SkyX::CloudLayer::Options(/* Default options */));
     }
 
-	void createFrameListener()
-	{
-		// Add frame listener
-		mRoot->addFrameListener(new SkyXDemoFrameListener(mWindow, mCamera, mSceneMgr));
-	}
-
 	void chooseSceneManager()
     {
         // Create the SceneManager, in this case terrain scene manager
-        mSceneMgr = mRoot->createSceneManager("TerrainSceneManager");
+        mSceneMgr = mRoot->createSceneManager();
+        mSceneMgr->addRenderQueueListener(getOverlaySystem());
     }
 
 	// Create text area for SkyX parameters

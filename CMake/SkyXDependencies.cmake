@@ -37,25 +37,6 @@ message(STATUS "CMAKE_MODULE_PATH in SkyXDependencies = ${CMAKE_MODULE_PATH}")
 # Core dependencies
 #######################################################################
 
-# Find Boost, you can comment those lines if Ogre was not compiled using boost threads.
-set(Boost_USE_STATIC_LIBS TRUE)
-set(Boost_ADDITIONAL_VERSIONS "1.47.0" "1.47" "1.46.0" "1.46" "1.45.0" "1.45" "1.44.0" "1.44" "1.43.0" "1.43" "1.42.0" "1.42" "1.41.0" "1.41" "1.40.0" "1.40" "1.39.0" "1.39" "1.38.0" "1.38" "1.37.0" "1.37" )
-# Uncomment bellow if Ogre was compiled with boost threading
-#set(SKYX_BOOST_COMPONENTS thread date_time)
-find_package(Boost COMPONENTS ${SKYX_BOOST_COMPONENTS} QUIET)
-if (NOT Boost_FOUND)
-	# Try again with the other type of libs
-	if(Boost_USE_STATIC_LIBS)
-		set(Boost_USE_STATIC_LIBS)
-	else()
-		set(Boost_USE_STATIC_LIBS ON)
-	endif()
-	find_package(Boost COMPONENTS ${SKYX_BOOST_COMPONENTS} QUIET)
-endif()
-macro_log_feature(Boost_FOUND "boost" "Boost (general)" "http://boost.org" TRUE "" "")
-macro_log_feature(Boost_THREAD_FOUND "boost-thread" "Used for threading support" "http://boost.org" FALSE "" "")
-macro_log_feature(Boost_DATE_TIME_FOUND "boost-date_time" "Used for threading support" "http://boost.org" FALSE "" "")
-
 # Find Ogre 3D, plus terrain and paging components
 find_package(OGRE COMPONENTS)
 macro_log_feature(OGRE_FOUND "OGRE" "3D library needed for the OgreGraphics plugin" "http://" TRUE "" "")
@@ -67,14 +48,6 @@ macro_log_feature(OGRE_FOUND "OGRE" "3D library needed for the OgreGraphics plug
 # Find Doxygen
 find_package(Doxygen)
 macro_log_feature(DOXYGEN_FOUND "Doxygen" "Tool for building API documentation" "http://doxygen.org" FALSE "" "")
-
-#######################################################################
-# Samples dependencies (comment if not needed)
-#######################################################################
-
-# Find OIS
-find_package(OIS)
-macro_log_feature(OIS_FOUND "OIS" "Input library needed for the OISInput plugin" "http://sourceforge.net/projects/wgois" TRUE "" "")
 
 #######################################################################
 # All dependencies were checked

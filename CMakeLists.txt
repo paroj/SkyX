@@ -102,7 +102,7 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
 # Add Main include path
-include_directories("${SKYX_SOURCE_DIR}/SkyX/include")
+include_directories("${SKYX_SOURCE_DIR}/SkyX/Include" "${SKYX_SOURCE_DIR}")
 
 # Find dependencies
 include(SkyXDependencies)
